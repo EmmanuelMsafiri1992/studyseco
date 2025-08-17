@@ -15,13 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
             $table->foreignId('form_id')->constrained('forms')->onDelete('cascade');
-            $table->string('title', 200);
+            $table->foreignId('teacher_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->string('name', 200);
+            $table->string('slug', 200)->unique();
             $table->text('description')->nullable();
-            $table->integer('order_index')->default(0);
-            $table->decimal('estimated_duration_hours', 4, 2)->nullable();
-            $table->enum('difficulty_level', ['beginner', 'intermediate', 'advanced'])->default('beginner');
-            $table->json('prerequisites')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }

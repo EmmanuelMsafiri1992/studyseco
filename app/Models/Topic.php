@@ -4,62 +4,62 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Topic extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'topics';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'subject_id',
         'form_id',
-        'title',
+        'teacher_id',
+        'name',
+        'slug',
         'description',
-        'order_index',
-        'estimated_duration_hours',
-        'difficulty_level',
-        'prerequisites',
-        'is_active',
+        'order',
     ];
 
-    protected $casts = [
-        'prerequisites' => 'array',
-        'is_active' => 'boolean',
-    ];
-
-    public function subject(): BelongsTo
+    /**
+     * Get the subject that owns the topic.
+     */
+    public function subject()
     {
         return $this->belongsTo(Subject::class);
     }
 
-    public function form(): BelongsTo
+    /**
+     * Get the form that owns the topic.
+     */
+    public function form()
     {
         return $this->belongsTo(Form::class);
     }
 
-    public function teacher(): BelongsTo
+    /**
+     * Get the teacher that created the topic.
+     */
+    public function teacher()
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
 
-    public function lessons(): HasMany
+    /**
+     * Get the video lessons for the topic.
+     */
+    public function videoLessons()
     {
         return $this->hasMany(VideoLesson::class);
-    }
-
-    public function quizzes(): HasMany
-    {
-        return $this->hasMany(Quiz::class);
-    }
-
-    public function assignments(): HasMany
-    {
-        return $this->hasMany(Assignment::class);
-    }
-
-    public function progress(): HasMany
-    {
-        return $this->hasMany(StudentProgress::class);
     }
 }
