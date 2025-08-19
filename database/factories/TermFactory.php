@@ -1,23 +1,29 @@
 <?php
-
 namespace Database\Factories;
 
+use App\Models\Term;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Term>
- */
 class TermFactory extends Factory
 {
     /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Term::class;
+
+    /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     * @return array
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            //
+            'name' => 'Term ' . fake()->unique()->numberBetween(1, 3),
+            'start_date' => fake()->date(),
+            'end_date' => fake()->date(),
         ];
     }
 }
